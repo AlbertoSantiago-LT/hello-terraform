@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     aws = {
-      source = "hasicorp/aws"
+      source = "hashicorp/aws"
       version = "~> 4.16"
     }
   }
@@ -12,7 +12,7 @@ terraform {
 
 
 provider "aws" {
-  region= "eu-west-a"
+  region= "eu-west-1"
 }
 
 
@@ -21,6 +21,7 @@ resourcer "aws_instance" "app_server" {
   instances_type = "t2.micro"
 
   tag = {
-    Name = "ExampleAppServerInstance"
+    Name = "Terraform"
+    APP = "vue2048"
   }
 }
