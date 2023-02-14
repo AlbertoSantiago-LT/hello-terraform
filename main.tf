@@ -16,7 +16,7 @@ provider "aws" {
 }
 
 
-resourcer "aws_instance" "app_server" {
+resource "aws_instance" "app_server" {
   ami = ami-0b752bf1df193a6c4
   instances_type = "t2.micro"
 
