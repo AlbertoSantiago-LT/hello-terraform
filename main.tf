@@ -23,7 +23,8 @@ resource "aws_instance" "app_server" {
     "sg-077c7042ad8a28b0e"
   ]
   subnet_id = "subnet-0683452f925bf774f"
-  key_name = "clave-lucatic"
+  key_name  = "clave-lucatic"
+  user_data = file("init.sh")
   tags = {
     Name = "TerraformInstancia"
     APP  = "vue2048"
