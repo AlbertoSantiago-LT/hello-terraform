@@ -24,36 +24,39 @@ resource "aws_instance" "app_server" {
   ]
   subnet_id = "subnet-0683452f925bf774f"
   key_name  = "clave-lucatic"
-  # user_data = file("init.sh")
+  #1 user_data = file("init.sh")
 
-  provisioner "file" {
-    connection {
-      type        = "ssh"
-      user        = "ec2-user"
-      private_key = file("/home/sinensia/.ssh/clave-lucatic.pem")
-      host        = aws_instance.app_server.public_ip
-    }
-    source      = "/home/sinensia/hello-terraform/public_html"
-    destination = "/tmp/"
-  }
+  #2-  provisioner "file" {
+  #    connection {
+  #      type        = "ssh"
+  #      user        = "ec2-user"
+  #      private_key = file("/home/sinensia/.ssh/clave-lucatic.pem")
+  #      host        = aws_instance.app_server.public_ip
+  #    }
+  #    source      = "/home/sinensia/hello-terraform/public_html"
+  #    destination = "/tmp/"
+  #  }
 
-  provisioner "remote-exec" {
-    inline = ["sudo yum install -y httpd",
-      "sudo systemctl enable httpd",
-      "sudo systemctl start httpd",
-    "sudo mv /tmp/public_html/* /var/www/html/"]
+  #  provisioner "remote-exec" {
+  #    inline = ["sudo yum install -y httpd",
+  #      "sudo systemctl enable httpd",
+  #      "sudo systemctl start httpd",
+  #    "sudo mv /tmp/public_html/* /var/www/html/"]
 
-    connection {
-      type        = "ssh"
-      user        = "ec2-user"
-      private_key = file("/home/sinensia/.ssh/clave-lucatic.pem")
-      host        = aws_instance.app_server.public_ip
-    }
-  }
+  #    connection {
+  #      type        = "ssh"
+  #      user        = "ec2-user"
+  #      private_key = file("/home/sinensia/.ssh/clave-lucatic.pem")
+  #      host        = aws_instance.app_server.public_ip
+  #    }
+  #2-  }
   tags = {
     Name = "TerraformInstancia"
     APP  = "vue2048"
-    Name = var.instance_name
+    # Name = var.instance_name
   }
-
+  provisioner "local-exec" {
+    working_dir = "ansible"
+    command     = "ansible-playbook -i aws_ec2.yml httpd.yml"
+  }
 }
