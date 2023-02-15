@@ -27,5 +27,7 @@ resource "aws_instance" "app_server" {
   tags = {
     Name = "TerraformInstancia"
     APP  = "vue2048"
+    Name = var.instance_name
+
   }
 }
